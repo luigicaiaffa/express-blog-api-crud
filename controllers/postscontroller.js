@@ -55,25 +55,20 @@ function destroy(req, res) {
     return;
   }
 
-  let indexOfPosts;
-  posts.forEach((post, index) => {
-    if (post.id === id) indexOfPosts = index;
-  });
+  const selectedPost = posts.find((post) => post.id === id);
 
-  const deletedPost = posts[indexOfPosts];
+  const postIndex = posts.indexOf(selectedPost);
 
-  if (indexOfPosts || indexOfPosts === 0) {
-    posts.splice(indexOfPosts, 1);
-  } else {
+  if (!selectedPost) {
     res.status(404).send({ error: "element not found" });
     return;
   }
 
+  posts.splice(postIndex, 1);
+
   // res.json(`Elimina il post con id: ${id}`);
-  res.json({
-    deletedPost,
-    posts,
-  });
+  console.log(posts);
+  res.sendStatus(204)
 }
 
 module.exports = { index, show, create, update, modify, destroy };
