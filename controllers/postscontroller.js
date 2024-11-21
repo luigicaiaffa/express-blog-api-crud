@@ -5,8 +5,23 @@ const posts = require("../data/postslist");
 // # Rotte
 // index
 function index(req, res) {
+  const { tag, title } = req.query;
+
+  // copia dell'array posts  
+  let filteredPosts = [...posts];
+
+  if (tag) {
+    filteredPosts = filteredPosts.filter((post) => post.tags.includes(tag));
+  }
+
+  if (title) {
+    filteredPosts = filteredPosts.filter((post) =>
+      post.title.toLowerCase().includes(title.toLowerCase())
+    );
+  }
+
   // res.json("Lista dei post");
-  res.json(posts);
+  res.json(filteredPosts);
 }
 
 // show
@@ -66,9 +81,9 @@ function destroy(req, res) {
 
   posts.splice(postIndex, 1);
 
-  // res.json(`Elimina il post con id: ${id}`);
+  console.log(`"deleted element id: ${id}"`);
   console.log(posts);
-  res.sendStatus(204)
+  res.sendStatus(204);
 }
 
 module.exports = { index, show, create, update, modify, destroy };
