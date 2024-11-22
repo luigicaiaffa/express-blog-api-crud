@@ -68,7 +68,7 @@ function update(req, res) {
     return;
   }
 
-  let selectedPost = posts.find((post) => post.id === id);
+  const selectedPost = posts.find((post) => post.id === id);
 
   if (!selectedPost) {
     res.status(404).send({ error: "element not found" });
@@ -90,7 +90,32 @@ function update(req, res) {
 // modify
 function modify(req, res) {
   const id = parseInt(req.params.id);
-  res.json(`Modifica parzialmente il post con id: ${id}`);
+
+  if (isNaN(id)) {
+    res.status(400).send({ error: "id not valid" });
+    return;
+  }
+
+  const selectedPost = posts.find((post) => post.id === id);
+
+  if (!selectedPost) {
+    res.status(404).send({ error: "element not found" });
+    return;
+  }
+
+  const { title, content, img, tags } = req.body;
+  console.log({ title, content, img, tags });
+
+  if (title) selectedPost.title = title;
+
+  if (content) selectedPost.content = content;
+
+  if (img) selectedPost.img = img;
+
+  if (tags) selectedPost.tags = tags;
+
+  // res.json(`Modifica parzialmente il post con id: ${id}`);
+  res.json(selectedPost);
 }
 
 // destroy
@@ -115,7 +140,7 @@ function destroy(req, res) {
 
   console.log(`// deleted element id: ${id} //`);
   console.log(posts);
-  
+
   // res.json(`Elimina il post con id: ${id}`);
   res.sendStatus(204);
 }
