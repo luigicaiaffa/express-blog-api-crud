@@ -5,15 +5,18 @@ const posts = require("../data/postslist");
 // # Rotte
 // index
 function index(req, res) {
+  // valori in arrivo
   const { tag, title } = req.query;
 
   // copia dell'array posts
   let filteredPosts = [...posts];
 
+  // controllo param tag
   if (tag) {
     filteredPosts = filteredPosts.filter((post) => post.tags.includes(tag));
   }
 
+  // controllo param title
   if (title) {
     filteredPosts = filteredPosts.filter((post) =>
       post.title.toLowerCase().includes(title.toLowerCase())
@@ -26,15 +29,19 @@ function index(req, res) {
 
 // show
 function show(req, res) {
+  // id richiesto
   const id = parseInt(req.params.id);
 
+  // errore
   if (isNaN(id)) {
     res.status(400).send({ error: "id not valid" });
     return;
   }
 
+  // post con id richiesto
   const selectedPost = posts.find((post) => post.id === id);
 
+  // errore
   if (!selectedPost) {
     res.status(404).send({ error: "element not found" });
     return;
@@ -46,38 +53,76 @@ function show(req, res) {
 
 // store
 function create(req, res) {
+  // id auto gen
   const id = posts.at(-1).id + 1;
 
+  // dati in arrivo
   const { title, content, img, tags } = req.body;
+
+  // errore
+  if (
+    !title ||
+    !content ||
+    !img ||
+    !tags ||
+    !Array.isArray(tags) ||
+    !tags.length
+  ) {
+    res.status(400).json({ error: "missing or invalid param" });
+    return;
+  }
+
+  // log
+  console.log(`// new data //`);
   console.log({ title, content, img, tags });
 
-  const newPost = { id, title, content, img, tags };
-
-  posts.push(newPost);
-
   // res.json("Crea un nuovo post");
+  const newPost = { id, title, content, img, tags };
+  posts.push(newPost);
   res.status(201).json(newPost);
 }
 
 // update
 function update(req, res) {
+  // id richiesto
   const id = parseInt(req.params.id);
 
+  // errore
   if (isNaN(id)) {
     res.status(400).send({ error: "id not found" });
     return;
   }
 
+  // post con id richiesto
   const selectedPost = posts.find((post) => post.id === id);
 
+  // errore
   if (!selectedPost) {
     res.status(404).send({ error: "element not found" });
     return;
   }
 
+  // dati in arrivo
   const { title, content, img, tags } = req.body;
+
+  // errore
+  if (
+    !title ||
+    !content ||
+    !img ||
+    !tags ||
+    !Array.isArray(tags) ||
+    !tags.length
+  ) {
+    res.status(400).json({ error: "missing or invalid param" });
+    return;
+  }
+
+  // log
+  console.log(`// modified data //`);
   console.log({ title, content, img, tags });
 
+  // modified data
   selectedPost.title = title;
   selectedPost.content = content;
   selectedPost.img = img;
@@ -89,30 +134,60 @@ function update(req, res) {
 
 // modify
 function modify(req, res) {
+  // id richiesto
   const id = parseInt(req.params.id);
 
+  // errore
   if (isNaN(id)) {
     res.status(400).send({ error: "id not valid" });
     return;
   }
 
+  // post con id richiesto
   const selectedPost = posts.find((post) => post.id === id);
 
+  // errore
   if (!selectedPost) {
     res.status(404).send({ error: "element not found" });
     return;
   }
 
+  // dati in arrivo
   const { title, content, img, tags } = req.body;
-  console.log({ title, content, img, tags });
 
-  if (title) selectedPost.title = title;
+  // modified title
+  if (title) {
+    selectedPost.title = title;
+    console.log(`// modified data //`);
+    console.log({ title });
+  }
 
-  if (content) selectedPost.content = content;
+  // modified content
+  else if (content) {
+    selectedPost.content = content;
+    console.log(`// modified data //`);
+    console.log({ content });
+  }
 
-  if (img) selectedPost.img = img;
+  // modified img
+  else if (img) {
+    selectedPost.img = img;
+    console.log(`// modified data //`);
+    console.log({ img });
+  }
 
-  if (tags) selectedPost.tags = tags;
+  // modified tags
+  else if (tags && Array.isArray(tags)) {
+    selectedPost.tags = tags;
+    console.log(`// modified data //`);
+    console.log({ tags });
+  }
+
+  // error
+  else {
+    res.status(400).json({ error: "missing or invalid param" });
+    return;
+  }
 
   // res.json(`Modifica parzialmente il post con id: ${id}`);
   res.json(selectedPost);
@@ -120,28 +195,29 @@ function modify(req, res) {
 
 // destroy
 function destroy(req, res) {
+  // id richiesto
   const id = parseInt(req.params.id);
 
+  // errore
   if (isNaN(id)) {
     res.status(400).send({ error: "id not valid" });
     return;
   }
 
+  // post con id richiesto e suo indice
   const selectedPost = posts.find((post) => post.id === id);
-
   const postIndex = posts.indexOf(selectedPost);
 
+  // errore
   if (!selectedPost) {
     res.status(404).send({ error: "element not found" });
     return;
   }
 
+  // res.json(`Elimina il post con id: ${id}`);
   posts.splice(postIndex, 1);
-
   console.log(`// deleted element id: ${id} //`);
   console.log(posts);
-
-  // res.json(`Elimina il post con id: ${id}`);
   res.sendStatus(204);
 }
 
