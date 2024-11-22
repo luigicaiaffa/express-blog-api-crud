@@ -2,10 +2,9 @@
 const express = require("express");
 const router = express.Router();
 
-// #
+// # Rotte
 const routeFunction = require("../controllers/postscontroller");
 
-// # Rotte
 // index
 router.get("/", routeFunction.index);
 

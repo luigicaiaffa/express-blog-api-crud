@@ -7,7 +7,7 @@ const posts = require("../data/postslist");
 function index(req, res) {
   const { tag, title } = req.query;
 
-  // copia dell'array posts  
+  // copia dell'array posts
   let filteredPosts = [...posts];
 
   if (tag) {
@@ -44,9 +44,19 @@ function show(req, res) {
   res.json(selectedPost);
 }
 
-// create
+// store
 function create(req, res) {
-  res.json("Crea un nuovo post");
+  const id = posts.at(-1).id + 1;
+
+  const { title, content, img, tags } = req.body;
+  console.log({ title, content, img, tags });
+
+  const newPost = { id, title, content, img, tags };
+
+  posts.push(newPost);
+
+  // res.json("Crea un nuovo post");
+  res.status(201).json(newPost);
 }
 
 // update
