@@ -62,7 +62,29 @@ function create(req, res) {
 // update
 function update(req, res) {
   const id = parseInt(req.params.id);
-  res.json(`Modifica interamente il post con id: ${id}`);
+
+  if (isNaN(id)) {
+    res.status(400).send({ error: "id not found" });
+    return;
+  }
+
+  let selectedPost = posts.find((post) => post.id === id);
+
+  if (!selectedPost) {
+    res.status(404).send({ error: "element not found" });
+    return;
+  }
+
+  const { title, content, img, tags } = req.body;
+  console.log({ title, content, img, tags });
+
+  selectedPost.title = title;
+  selectedPost.content = content;
+  selectedPost.img = img;
+  selectedPost.tags = tags;
+
+  // res.json(`Modifica interamente il post con id: ${id}`);
+  res.json(selectedPost);
 }
 
 // modify
@@ -91,8 +113,10 @@ function destroy(req, res) {
 
   posts.splice(postIndex, 1);
 
-  console.log(`"deleted element id: ${id}"`);
+  console.log(`// deleted element id: ${id} //`);
   console.log(posts);
+  
+  // res.json(`Elimina il post con id: ${id}`);
   res.sendStatus(204);
 }
 
