@@ -5,8 +5,6 @@ const posts = require("../data/postslist");
 // # Rotte
 // index
 function index(req, res) {
-  pippo.getData();
-
   // valori in arrivo
   const { tag, title } = req.query;
 
