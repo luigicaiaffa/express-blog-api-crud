@@ -34,8 +34,9 @@ function show(req, res) {
 
   // errore
   if (isNaN(id)) {
-    res.status(400).send({ error: "id not valid" });
-    return;
+    const err = new Error("Id not valid");
+    err.code = 400;
+    throw err;
   }
 
   // post con id richiesto
@@ -43,8 +44,9 @@ function show(req, res) {
 
   // errore
   if (!selectedPost) {
-    res.status(404).send({ error: "element not found" });
-    return;
+    const err = new Error("id not found");
+    err.code = 404;
+    throw err;
   }
 
   // res.json(`Post con id: ${id}`)
@@ -68,8 +70,9 @@ function create(req, res) {
     !Array.isArray(tags) ||
     !tags.length
   ) {
-    res.status(400).json({ error: "missing or invalid param" });
-    return;
+    const err = new Error("missing or invalid param");
+    err.code = 400;
+    throw err;
   }
 
   // log
@@ -89,8 +92,9 @@ function update(req, res) {
 
   // errore
   if (isNaN(id)) {
-    res.status(400).send({ error: "id not found" });
-    return;
+    const err = new Error("id not valid");
+    err.code = 400;
+    throw err;
   }
 
   // post con id richiesto
@@ -98,8 +102,9 @@ function update(req, res) {
 
   // errore
   if (!selectedPost) {
-    res.status(404).send({ error: "element not found" });
-    return;
+    const err = new Error("id not found");
+    err.code = 404;
+    throw err;
   }
 
   // dati in arrivo
@@ -114,8 +119,9 @@ function update(req, res) {
     !Array.isArray(tags) ||
     !tags.length
   ) {
-    res.status(400).json({ error: "missing or invalid param" });
-    return;
+    const err = new Error("missing or invalid param");
+    err.code = 400;
+    throw err;
   }
 
   // log
@@ -139,8 +145,9 @@ function modify(req, res) {
 
   // errore
   if (isNaN(id)) {
-    res.status(400).send({ error: "id not valid" });
-    return;
+    const err = new Error("id not valid");
+    err.code = 400;
+    throw err;
   }
 
   // post con id richiesto
@@ -148,8 +155,9 @@ function modify(req, res) {
 
   // errore
   if (!selectedPost) {
-    res.status(404).send({ error: "element not found" });
-    return;
+    const err = new Error("id not found");
+    err.code = 404;
+    throw err;
   }
 
   // dati in arrivo
@@ -185,8 +193,9 @@ function modify(req, res) {
 
   // error
   else {
-    res.status(400).json({ error: "missing or invalid param" });
-    return;
+    const err = new Error("missing or invalid param");
+    err.code = 400;
+    throw err;
   }
 
   // res.json(`Modifica parzialmente il post con id: ${id}`);
@@ -200,8 +209,9 @@ function destroy(req, res) {
 
   // errore
   if (isNaN(id)) {
-    res.status(400).send({ error: "id not valid" });
-    return;
+    const err = new Error("id not valid");
+    err.code = 400;
+    throw err;
   }
 
   // post con id richiesto e suo indice
@@ -210,8 +220,9 @@ function destroy(req, res) {
 
   // errore
   if (!selectedPost) {
-    res.status(404).send({ error: "element not found" });
-    return;
+    const err = new Error("id not found");
+    err.code = 404;
+    throw err;
   }
 
   // res.json(`Elimina il post con id: ${id}`);
