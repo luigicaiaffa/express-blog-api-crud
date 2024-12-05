@@ -59,16 +59,18 @@ function create(req, res) {
   const id = posts.at(-1).id + 1;
 
   // dati in arrivo
-  const { title, content, img, tags } = req.body;
+  const { title, author, content, image, category, tags, pubblished } =
+    req.body;
 
   // errore
   if (
     !title ||
+    !author ||
     !content ||
-    !img ||
-    !tags ||
-    !Array.isArray(tags) ||
-    !tags.length
+    !category
+    // !tags ||
+    // !Array.isArray(tags) ||
+    // !tags.length
   ) {
     const err = new Error("missing or invalid param");
     err.code = 400;
@@ -77,10 +79,18 @@ function create(req, res) {
 
   // log
   console.log(`// new data //`);
-  console.log({ title, content, img, tags });
 
-  // res.json("Crea un nuovo post");
-  const newPost = { id, title, content, img, tags };
+  const newPost = {
+    id,
+    title,
+    author,
+    content,
+    image,
+    category,
+    tags,
+    pubblished,
+  };
+
   posts.push(newPost);
   res.status(201).json(newPost);
 }
