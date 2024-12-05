@@ -1,7 +1,9 @@
 // # Configurazione
+require("dotenv").config();
 const express = require("express");
+const cors = require("cors");
 const app = express();
-const port = 3000;
+const port = process.env.PORT;
 
 // # Middlewares
 const errorsHandler = require("./middlewares/errorsHandler");
@@ -15,6 +17,7 @@ const postsRouter = require("./routers/posts");
 
 app.use("/", pagesRouter);
 app.use("/posts", postsRouter);
+app.use(cors());
 
 // # Errors
 app.use(errorsHandler);
