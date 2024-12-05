@@ -224,11 +224,11 @@ function destroy(req, res) {
     err.code = 404;
     throw err;
   }
-
-  // res.json(`Elimina il post con id: ${id}`);
+  
   posts.splice(postIndex, 1);
   console.log(`// deleted element id: ${id} //`);
   console.log(posts);
+  res.json(posts);
   res.sendStatus(204);
 }
 
