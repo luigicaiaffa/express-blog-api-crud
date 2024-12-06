@@ -7,7 +7,6 @@ const posts = [
     content: "ciambellone classico",
     image: "http://localhost:3000/img/ciambellone.jpeg",
     category: "Dolci",
-    tags: ["dolce", "farina", "ciambellone", "cibo"],
     pubblished: true,
   },
   {
@@ -17,7 +16,6 @@ const posts = [
     content: "cracker alla barbabietola ai 5 semi",
     image: "http://localhost:3000/img/cracker_barbabietola.jpeg",
     category: "Snack",
-    tags: ["snack", "salato", "barbabietola", "cracker", "cibo"],
     pubblished: true,
   },
   {
@@ -27,7 +25,6 @@ const posts = [
     content: "pane fritto con aggiunta di zucchero",
     image: "http://localhost:3000/img/pane_fritto_dolce.jpeg",
     category: "Dolci",
-    tags: ["dolce", "pane", "fritto", "cibo"],
     pubblished: true,
   },
   {
@@ -37,7 +34,6 @@ const posts = [
     content: "rigatoni con crema di barbabietola e granella di pistacchi",
     image: "http://localhost:3000/img/pasta_barbabietola.jpeg",
     category: "Primi",
-    tags: ["pasta", "barbabietola", "cibo"],
     pubblished: true,
   },
   {
@@ -47,7 +43,6 @@ const posts = [
     content: "torta al cioccolato con mandorle",
     image: "http://localhost:3000/img/torta_paesana.jpeg",
     category: "Dolci",
-    tags: ["torta", "dolce", "mandorle", "cioccolato", "cibo"],
     pubblished: true,
   },
 ];

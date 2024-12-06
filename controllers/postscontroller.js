@@ -59,8 +59,7 @@ function create(req, res) {
   const id = posts.at(-1).id + 1;
 
   // dati in arrivo
-  const { title, author, content, image, category, tags, pubblished } =
-    req.body;
+  const { title, author, content, image, category, pubblished } = req.body;
 
   // errore
   if (
@@ -87,7 +86,7 @@ function create(req, res) {
     content,
     image,
     category,
-    tags,
+    // tags,
     pubblished,
   };
 
@@ -118,16 +117,17 @@ function update(req, res) {
   }
 
   // dati in arrivo
-  const { title, content, img, tags } = req.body;
+  const { title, author, content, image, category, pubblished } = req.body;
 
   // errore
   if (
     !title ||
+    !author ||
     !content ||
-    !img ||
-    !tags ||
-    !Array.isArray(tags) ||
-    !tags.length
+    !category
+    // !tags ||
+    // !Array.isArray(tags) ||
+    // !tags.length
   ) {
     const err = new Error("missing or invalid param");
     err.code = 400;
@@ -136,13 +136,16 @@ function update(req, res) {
 
   // log
   console.log(`// modified data //`);
-  console.log({ title, content, img, tags });
+  console.log({ title, author, content, image, category, pubblished });
 
   // modified data
   selectedPost.title = title;
+  selectedPost.author = author;
   selectedPost.content = content;
-  selectedPost.img = img;
-  selectedPost.tags = tags;
+  selectedPost.image = image;
+  selectedPost.category = category;
+  selectedPost.pubblished = pubblished;
+  // selectedPost.tags = tags;
 
   // res.json(`Modifica interamente il post con id: ${id}`);
   res.json(selectedPost);
@@ -171,13 +174,20 @@ function modify(req, res) {
   }
 
   // dati in arrivo
-  const { title, content, img, tags } = req.body;
+  const { title, author, content, image, category, pubblished } = req.body;
 
   // modified title
   if (title) {
     selectedPost.title = title;
     console.log(`// modified data //`);
     console.log({ title });
+  }
+
+  // modified author
+  else if (author) {
+    selectedPost.author = author;
+    console.log(`// modified data //`);
+    console.log({ author });
   }
 
   // modified content
@@ -187,19 +197,33 @@ function modify(req, res) {
     console.log({ content });
   }
 
-  // modified img
-  else if (img) {
-    selectedPost.img = img;
+  // modified image
+  else if (image) {
+    selectedPost.image = image;
     console.log(`// modified data //`);
-    console.log({ img });
+    console.log({ image });
+  }
+
+  // modified category
+  else if (category) {
+    selectedPost.category = category;
+    console.log(`// modified data //`);
+    console.log({ category });
+  }
+
+  // modified pubblished
+  else if (pubblished || !pubblished) {
+    selectedPost.pubblished = pubblished;
+    console.log(`// modified data //`);
+    console.log({ pubblished });
   }
 
   // modified tags
-  else if (tags && Array.isArray(tags)) {
-    selectedPost.tags = tags;
-    console.log(`// modified data //`);
-    console.log({ tags });
-  }
+  // else if (tags && Array.isArray(tags)) {
+  //   selectedPost.tags = tags;
+  //   console.log(`// modified data //`);
+  //   console.log({ tags });
+  // }
 
   // error
   else {
@@ -234,10 +258,11 @@ function destroy(req, res) {
     err.code = 404;
     throw err;
   }
-  
+
   posts.splice(postIndex, 1);
   console.log(`// deleted element id: ${id} //`);
   console.log(posts);
+
   res.json(posts);
   res.sendStatus(204);
 }
